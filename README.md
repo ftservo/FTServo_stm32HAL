@@ -1,2 +1,2 @@
-# FTServo-Modbus
-FEETECH BUS Servo Modbus-Rtu library
+# FTServo-ModbusRut
+FEETECH BUS Servo Modbus-Rtu Arduino library
