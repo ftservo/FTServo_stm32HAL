@@ -1,7 +1,7 @@
 /*
  * SCS.c
  * SCS串行舵机协议程序
- * 日期: 2024.12.2
+ * 日期: 2025.2.26
  * 作者: txl
  */
 
@@ -29,7 +29,7 @@ int getState(void)
 }
 
 int getLastError(void)
-	{
+{
 	return u8Error;
 }
 
