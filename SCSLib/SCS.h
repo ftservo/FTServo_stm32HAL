@@ -1,7 +1,7 @@
 /*
  * SCS.h
  * 飞特串行舵机通信协议程序
- * 日期: 2024.12.2
+ * 日期: 2025.3.3
  * 作者: txl
  */
 
@@ -36,6 +36,7 @@ extern int Ack(uint8_t ID);//应答
 extern int checkHead(void);//帧头检测
 
 extern void setEnd(uint8_t _End);
+extern uint8_t getEnd(void);
 extern void setLevel(uint8_t _Level);
 extern int getState(void);
 extern int getLastError(void);

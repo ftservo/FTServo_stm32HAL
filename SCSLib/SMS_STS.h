@@ -1,7 +1,7 @@
 /*
  * SMS_STS.h
  * 飞特SMS/STS系列串行舵机应用层程序
- * 日期: 2025.2.26
+ * 日期: 2025.3.3
  * 作者: 
  */
 
@@ -62,23 +62,12 @@
 #define SMS_STS_PRESENT_CURRENT_H 70
 
 
-extern int SMS_STS_WritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC);//普通写位置指令
-extern int SMS_STS_RegWritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC);//异步写位置指令
-extern void SMS_STS_RegWriteAction(void);//异步写位置执行
-extern void SMS_STS_SyncWritePosEx(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[], uint8_t ACC[]);//同步写位置指令
-extern int SMS_STS_WheelMode(uint8_t ID);//恒速模式
-extern int SMS_STS_WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC);//恒速模式控制指令
-extern int SMS_STS_EnableTorque(uint8_t ID, uint8_t Enable);//扭矩控制指令
-extern int SMS_STS_unLockEprom(uint8_t ID);//eprom解锁
-extern int SMS_STS_LockEprom(uint8_t ID);//eprom加锁
-extern int SMS_STS_CalibrationOfs(uint8_t ID);//中位校准
-extern int SMS_STS_FeedBack(int ID);//反馈舵机信息
-extern int SMS_STS_ReadPos(int ID);//读位置
-extern int SMS_STS_ReadSpeed(int ID);//读速度
-extern int SMS_STS_ReadLoad(int ID);//读输出扭力
-extern int SMS_STS_ReadVoltage(int ID);//读电压
-extern int SMS_STS_ReadTemper(int ID);//读温度
-extern int SMS_STS_ReadMove(int ID);//读移动状态
-extern int SMS_STS_ReadCurrent(int ID);//读电流
-
+extern int WritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC);//普通写位置指令
+extern int RegWritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC);//异步写位置指令
+extern void SyncWritePosEx(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[], uint8_t ACC[]);//同步写位置指令
+extern int WheelMode(uint8_t ID);//恒速模式
+extern int WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC);//恒速模式控制指令
+extern int CalibrationOfs(uint8_t ID);//中位校准
+extern int unLockEpromEx(uint8_t ID);
+extern int LockEpromEx(uint8_t ID);
 #endif

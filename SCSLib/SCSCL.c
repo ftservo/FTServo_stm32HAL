@@ -11,7 +11,7 @@
 #include "SCSCL.h"
 
 static uint8_t Mem[SCSCL_PRESENT_CURRENT_H-SCSCL_PRESENT_POSITION_L+1];
-int SCSCL_WritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
+int WritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
 {
 	uint8_t bBuf[6];
 	Host2SCS(bBuf+0, bBuf+1, Position);
@@ -21,7 +21,7 @@ int SCSCL_WritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
 	return genWrite(ID, SCSCL_GOAL_POSITION_L, bBuf, 6);
 }
 
-int SCSCL_RegWritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
+int RegWritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
 {
 	uint8_t bBuf[6];
 	Host2SCS(bBuf+0, bBuf+1, Position);
@@ -31,12 +31,12 @@ int SCSCL_RegWritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Spe
 	return regWrite(ID, SCSCL_GOAL_POSITION_L, bBuf, 6);
 }
 
-void SCSCL_RegWriteAction()
+void RegWriteAction()
 {
 	regAction(0xfe);
 }
 
-void SCSCL_SyncWritePos(uint8_t ID[], uint8_t IDN, uint16_t Position[], uint16_t Time[], uint16_t Speed[])
+void SyncWritePos(uint8_t ID[], uint8_t IDN, uint16_t Position[], uint16_t Time[], uint16_t Speed[])
 {
   uint8_t offbuf[32*6];
 	uint8_t i;
@@ -59,7 +59,7 @@ void SCSCL_SyncWritePos(uint8_t ID[], uint8_t IDN, uint16_t Position[], uint16_t
   syncWrite(ID, IDN, SCSCL_GOAL_POSITION_L, offbuf, 6);
 }
 
-int SCSCL_PWMMode(uint8_t ID)
+int PWMMode(uint8_t ID)
 {
 	uint8_t bBuf[4];
 	bBuf[0] = 0;
@@ -69,7 +69,7 @@ int SCSCL_PWMMode(uint8_t ID)
 	return genWrite(ID, SCSCL_MIN_ANGLE_LIMIT_L, bBuf, 4);	
 }
 
-int SCSCL_WritePWM(uint8_t ID, int16_t pwmOut)
+int WritePWM(uint8_t ID, int16_t pwmOut)
 {
 	uint8_t bBuf[2];
 	if(pwmOut<0){
@@ -80,22 +80,22 @@ int SCSCL_WritePWM(uint8_t ID, int16_t pwmOut)
 
 	return genWrite(ID, SCSCL_GOAL_TIME_L, bBuf, 2);
 }
-int SCSCL_EnableTorque(uint8_t ID, uint8_t Enable)
+int EnableTorque(uint8_t ID, uint8_t Enable)
 {
 	return writeByte(ID, SCSCL_TORQUE_ENABLE, Enable);
 }
 
-int SCSCL_unLockEprom(uint8_t ID)
+int unLockEprom(uint8_t ID)
 {
 	return writeByte(ID, SCSCL_LOCK, 0);
 }
 
-int SCSCL_LockEprom(uint8_t ID)
+int LockEprom(uint8_t ID)
 {
 	return writeByte(ID, SCSCL_LOCK, 1);
 }
 
-int SCSCL_FeedBack(int ID)
+int FeedBack(int ID)
 {
 	int nLen = Read(ID, SCSCL_PRESENT_POSITION_L, Mem, sizeof(Mem));
 	if(nLen!=sizeof(Mem)){
@@ -104,7 +104,7 @@ int SCSCL_FeedBack(int ID)
 	return nLen;
 }
 	
-int SCSCL_ReadPos(int ID)
+int ReadPos(int ID)
 {
 	int Pos = -1;
 	if(ID==-1){
@@ -114,10 +114,13 @@ int SCSCL_ReadPos(int ID)
 	}else{
 		Pos = readWord(ID, SCSCL_PRESENT_POSITION_L);
 	}
+	if(Pos&(1<<15)){
+		Pos = -(Pos&~(1<<15));
+	}	
 	return Pos;
 }
 
-int SCSCL_ReadSpeed(int ID)
+int ReadSpeed(int ID)
 {
 	int Speed = -1;
 	if(ID==-1){
@@ -133,7 +136,7 @@ int SCSCL_ReadSpeed(int ID)
 	return Speed;
 }
 
-int SCSCL_ReadLoad(int ID)
+int ReadLoad(int ID)
 {
 	int Load = -1;
 	if(ID==-1){
@@ -145,11 +148,11 @@ int SCSCL_ReadLoad(int ID)
 	}
 	if(Load&(1<<10)){
 		Load = -(Load&~(1<<10));
-	}	
+	}
 	return Load;
 }
 
-int SCSCL_ReadVoltage(int ID)
+int ReadVoltage(int ID)
 {
 	int Voltage = -1;
 	if(ID==-1){
@@ -160,7 +163,7 @@ int SCSCL_ReadVoltage(int ID)
 	return Voltage;
 }
 
-int SCSCL_ReadTemper(int ID)
+int ReadTemper(int ID)
 {
 	int Temper = -1;
 	if(ID==-1){
@@ -171,7 +174,7 @@ int SCSCL_ReadTemper(int ID)
 	return Temper;
 }
 
-int SCSCL_ReadMove(int ID)
+int ReadMove(int ID)
 {
 	int Move = -1;
 	if(ID==-1){
@@ -182,7 +185,7 @@ int SCSCL_ReadMove(int ID)
 	return Move;
 }
 
-int SCSCL_ReadCurrent(int ID)
+int ReadCurrent(int ID)
 {
 	int Current = -1;
 	if(ID==-1){

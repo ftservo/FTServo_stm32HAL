@@ -1,7 +1,7 @@
 /*
  * SCS.c
  * SCS串行舵机协议程序
- * 日期: 2025.2.26
+ * 日期: 2025.3.3
  * 作者: txl
  */
 
@@ -16,6 +16,11 @@ static uint8_t u8Error;//通信状态
 void setEnd(uint8_t _End)
 {
 	End = _End;
+}
+
+uint8_t getEnd(void)
+{
+	return End;
 }
 
 void setLevel(uint8_t _Level)
