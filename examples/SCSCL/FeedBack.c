@@ -23,15 +23,15 @@ void examples(void)
   int Temper;
   int Move;
   int Current;
-	SCSCL_FeedBack(1);
+	FeedBack(1);
   if(!getLastError()){
-    Pos = SCSCL_ReadPos(-1);
-    Speed = SCSCL_ReadSpeed(-1);
-    Load = SCSCL_ReadLoad(-1);
-    Voltage = SCSCL_ReadVoltage(-1);
-    Temper = SCSCL_ReadTemper(-1);
-    Move = SCSCL_ReadMove(-1);
-		Current = SCSCL_ReadCurrent(-1);
+    Pos = ReadPos(-1);
+    Speed = ReadSpeed(-1);
+    Load = ReadLoad(-1);
+    Voltage = ReadVoltage(-1);
+    Temper = ReadTemper(-1);
+    Move = ReadMove(-1);
+		Current = ReadCurrent(-1);
 		printf("Pos:%d\n", Pos);
 		printf("Speed:%d\n", Speed);
 		printf("Load:%d\n", Load);
@@ -44,7 +44,7 @@ void examples(void)
 		printf("FeedBack err\n");
     HAL_Delay(2000);
   }
-  Pos = SCSCL_ReadPos(1);
+  Pos = ReadPos(1);
   if(!getLastError()){
     printf("Servo position:%d\n", Pos);
     HAL_Delay(10);
@@ -53,7 +53,7 @@ void examples(void)
     HAL_Delay(500);
   }
   
-  Voltage = SCSCL_ReadVoltage(1);
+  Voltage = ReadVoltage(1);
   if(!getLastError()){
 		printf("Servo Voltage:%d\n", Voltage);
     HAL_Delay(10);
@@ -62,7 +62,7 @@ void examples(void)
     HAL_Delay(500);
   }
   
-  Temper = SCSCL_ReadTemper(1);
+  Temper = ReadTemper(1);
   if(!getLastError()){
     printf("Servo temperature:%d\n", Temper);
     HAL_Delay(10);
@@ -71,7 +71,7 @@ void examples(void)
     HAL_Delay(500);    
   }
 
-  Speed = SCSCL_ReadSpeed(1);
+  Speed = ReadSpeed(1);
   if(!getLastError()){
     printf("Servo Speed:%d\n", Speed);
     HAL_Delay(10);
@@ -80,7 +80,7 @@ void examples(void)
     HAL_Delay(500);    
   }
   
-  Load = SCSCL_ReadLoad(1);
+  Load = ReadLoad(1);
   if(!getLastError()){
     printf("Servo Load:%d\n", Load);
     HAL_Delay(10);
@@ -89,7 +89,7 @@ void examples(void)
     HAL_Delay(500);    
   }
   
-  Current = SCSCL_ReadCurrent(1);
+  Current = ReadCurrent(1);
   if(!getLastError()){
     printf("Servo Current:%d\n", Current);
     HAL_Delay(10);
@@ -98,7 +98,7 @@ void examples(void)
     HAL_Delay(500);    
   }
 
-  Move = SCSCL_ReadMove(1);
+  Move = ReadMove(1);
   if(!getLastError()){
     printf("Servo Move:%d\n", Move);
     HAL_Delay(10);

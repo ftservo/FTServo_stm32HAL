@@ -7,10 +7,10 @@ void setup(void)
 
 void examples(void)
 {
-	SCSCL_unLockEprom(1);//打开EPROM保存功能
+	unLockEpromEx(1);//打开EPROM保存功能
   writeByte(1, SCSCL_ID, 2);//ID
   writeWord(2, SCSCL_MIN_ANGLE_LIMIT_L, 20);
 	writeWord(2, SCSCL_MAX_ANGLE_LIMIT_L, 1000);
-	SCSCL_LockEprom(2);//关闭EPROM保存功能
+	LockEpromEx(2);//关闭EPROM保存功能
 	while(1){}
 }

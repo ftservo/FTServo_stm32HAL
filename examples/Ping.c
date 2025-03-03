@@ -4,7 +4,6 @@
 
 void setup(void)
 {
-	setEnd(1);//SCSCL舵机为大端存储结构
 }
 
 void examples(void)
