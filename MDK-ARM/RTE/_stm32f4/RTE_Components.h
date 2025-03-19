@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'SCSCL_stm32f4' 
- * Target:  'SCSCL_stm32f4' 
+ * Project: 'stm32f4' 
+ * Target:  'stm32f4' 
  */
 
 #ifndef RTE_COMPONENTS_H
