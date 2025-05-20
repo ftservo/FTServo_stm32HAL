@@ -11,7 +11,7 @@ FeedBack函数回读舵机参数于缓冲区，Readxxx(-1)函数返回缓冲区中相应的舵机状态；
 
 void setup(void)
 {
-	setEnd(0);//SMS_STS舵机为小端存储结构
+  setEnd(0);//SMS_STS舵机为小端存储结构
 }
 
 void examples(void)

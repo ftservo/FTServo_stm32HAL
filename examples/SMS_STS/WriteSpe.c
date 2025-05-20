@@ -3,7 +3,7 @@
 
 void setup(void)
 {
-	setEnd(0);//SMS_STS舵机为大端存储结构
+  setEnd(0);//SMS_STS舵机为小端存储结构
   WheelMode(1);//舵机ID1切换至电机恒速模式
 }
 

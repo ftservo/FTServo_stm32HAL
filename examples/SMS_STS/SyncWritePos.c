@@ -8,7 +8,7 @@ uint8_t ACC[2];
 
 void setup(void)
 {
-	setEnd(0);//SMS_STS舵机为大端存储结构
+  setEnd(0);//SMS_STS舵机为小端存储结构
   ID[0] = 1;//舵机ID1
   ID[1] = 2;//舵机ID2
   Speed[0] = 60;//最高速度V=60*0.732=43.92rpm
