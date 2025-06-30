@@ -1,7 +1,7 @@
 /*
  * SCS.h
  * ·ÉÌØ´®ĞĞ¶æ»úÍ¨ĞÅĞ­Òé³ÌĞò
- * ÈÕÆÚ: 2025.3.3
+ * ÈÕÆÚ: 2025.6.30
  * ×÷Õß: txl
  */
 
@@ -28,6 +28,12 @@ extern int Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen);//¶ÁÖ
 extern int readByte(uint8_t ID, uint8_t MemAddr);//¶Á1¸ö×Ö½Ú
 extern int readWord(uint8_t ID, uint8_t MemAddr);//¶Á2¸ö×Ö½Ú
 extern int Ping(uint8_t ID);//PingÖ¸Áî
+extern int syncReadPacketTx(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t nLen);//Í¬²½¶ÁÖ¸Áî°ü·¢ËÍ
+extern int syncReadPacketRx(uint8_t ID, uint8_t *nDat);//Í¬²½¶Á·µ»Ø°ü½âÂë£¬³É¹¦·µ»ØÄÚ´æ×Ö½ÚÊı£¬Ê§°Ü·µ»Ø0
+extern int syncReadRxPacketToByte(void);//½âÂëÒ»¸ö×Ö½Ú
+extern int syncReadRxPacketToWrod(uint8_t negBit);//½âÂëÁ½¸ö×Ö½Ú£¬negBitÎª·½ÏòÎª£¬negBit=0±íÊ¾ÎŞ·½Ïò
+extern void syncReadBegin(uint8_t IDN, uint8_t rxLen);//Í¬²½¶Á¿ªÊ¼
+extern void syncReadEnd(void);//Í¬²½¶Á½áÊø
 
 extern void writeBuf(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen, uint8_t Fun);
 extern void Host2SCS(uint8_t *DataL, uint8_t* DataH, int Data);//1¸ö16Î»Êı²ğ·ÖÎª2¸ö8Î»Êı
@@ -43,6 +49,7 @@ extern int getLastError(void);
 	
 //Ó²¼ş½Ó¿Úº¯Êı
 extern int writeSCS(uint8_t *nDat, int nLen);
+extern int writeByteSCS(unsigned char bDat);
 extern int readSCS(uint8_t *nDat, int nLen);
 extern void rFlushSCS(void);
 extern void wFlushSCS(void);

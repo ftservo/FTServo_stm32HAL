@@ -32,6 +32,15 @@ int writeSCS(unsigned char *nDat, int nLen)
 	return wLen;
 }
 
+int writeByteSCS(unsigned char bDat)
+{
+	if(wLen<sizeof(wBuf)){
+		wBuf[wLen] = bDat;
+		wLen++;
+	}
+	return wLen;
+}
+
 //接收缓冲区刷新
 void rFlushSCS()
 {
