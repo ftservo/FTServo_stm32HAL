@@ -28,6 +28,7 @@ extern int Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen);//¶ÁÖ
 extern int readByte(uint8_t ID, uint8_t MemAddr);//¶Á1¸ö×Ö½Ú
 extern int readWord(uint8_t ID, uint8_t MemAddr);//¶Á2¸ö×Ö½Ú
 extern int Ping(uint8_t ID);//PingÖ¸Áî
+extern int Reset(uint8_t ID);//RESETÖ¸Áî
 extern int syncReadPacketTx(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t nLen);//Í¬²½¶ÁÖ¸Áî°ü·¢ËÍ
 extern int syncReadPacketRx(uint8_t ID, uint8_t *nDat);//Í¬²½¶Á·µ»Ø°ü½âÂë£¬³É¹¦·µ»ØÄÚ´æ×Ö½ÚÊı£¬Ê§°Ü·µ»Ø0
 extern int syncReadRxPacketToByte(void);//½âÂëÒ»¸ö×Ö½Ú

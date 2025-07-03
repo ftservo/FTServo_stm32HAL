@@ -22,5 +22,7 @@
 #define INST_REG_ACTION 0x05
 #define INST_SYNC_READ 0x82
 #define INST_SYNC_WRITE 0x83
+#define INST_RESET 0x0A
+#define INST_OFSCAL 0x0B
 
 #endif

@@ -298,6 +298,41 @@ int	Ping(uint8_t ID)
 	return bBuf[0];
 }
 
+//RESET指令，重置状态(清除圈数)，超时返回-1
+int	Reset(uint8_t ID)
+{
+	uint8_t bBuf[4];
+	uint8_t calSum;
+	rFlushSCS();
+	writeBuf(ID, 0, NULL, 0, INST_RESET);
+	wFlushSCS();
+	u8Status = 0;
+	if(!checkHead()){
+		u8Error = SCS_ERR_NO_REPLY;
+		return -1;
+	}
+	u8Error = 0;
+	if(readSCS(bBuf, 4)!=4){
+		u8Error = SCS_ERR_NO_REPLY;
+		return -1;
+	}
+	if(bBuf[0]!=ID && ID!=0xfe){
+		u8Error = SCS_ERR_SLAVE_ID;
+		return -1;
+	}
+	if(bBuf[1]!=2){
+		u8Error = SCS_ERR_BUFF_LEN;
+		return -1;
+	}
+	calSum = ~(bBuf[0]+bBuf[1]+bBuf[2]);
+	if(calSum!=bBuf[3]){
+		u8Error = SCS_ERR_CRC_CMP;
+		return -1;			
+	}
+	u8Status = bBuf[2];
+	return bBuf[0];
+}
+
 int checkHead(void)
 {
 	uint8_t bDat;
