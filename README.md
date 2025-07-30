@@ -8,3 +8,4 @@ FEETECH BUS Servo stm32HAL library
 4、实例默认使用usart2（引脚默认）波特率115200，可根据实际重配置stm32CubeMx  
 5、重配置串口后需要修改\Core\Src\main.c中的ftUart_Send\ftUart_Read函数  
 6、实例默认使用usart1进行串口重定向，可根据实际重配置stm32CubeMx与\Core\Src\main.c中的fputc函数  
+7、Example.doc为实例使用参考文档
