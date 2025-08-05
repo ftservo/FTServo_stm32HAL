@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;     ../Drivers/STM32F4xx_HAL_Driver/Inc;     ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;     ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;     ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;      ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;      ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -521,6 +521,11 @@
               <FileName>SCSerail.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SCSLib\SCSerail.c</FilePath>
+            </File>
+            <File>
+              <FileName>SMS_STS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SCSLib\SMS_STS.c</FilePath>
             </File>
           </Files>
         </Group>
