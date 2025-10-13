@@ -1,7 +1,7 @@
 /*
  * SMS_STS.h
  * 飞特SMS/STS系列串行舵机应用层程序
- * 日期: 2025.3.3
+ * 日期: 2025.10.13
  * 作者: 
  */
 
@@ -9,15 +9,6 @@
 #define _SMS_STS_H
 
 #include <stdint.h>
-
-#define	SMS_STS_1M 0
-#define	SMS_STS_0_5M 1
-#define	SMS_STS_250K 2
-#define	SMS_STS_128K 3
-#define	SMS_STS_115200 4
-#define	SMS_STS_76800	5
-#define	SMS_STS_57600	6
-#define	SMS_STS_38400	7
 
 //内存表定义
 //-------EPROM(只读)--------

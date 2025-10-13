@@ -1,7 +1,7 @@
 /*
  * SCSCL.h
  * 飞特SCSCL系列串行舵机应用层程序
- * 日期: 2024.12.2
+ * 日期: 2025.10.13
  * 作者: txl
  */
 
@@ -9,16 +9,6 @@
 #define _SCSCL_H
 
 #include <stdint.h>
-
-//波特率定义
-#define SCSCL_1M 0
-#define	SCSCL_0_5M 1
-#define	SCSCL_250K 2
-#define	SCSCL_128K 3
-#define	SCSCL_115200 4
-#define	SCSCL_76800 5
-#define	SCSCL_57600	6
-#define	SCSCL_38400	7
 
 //内存表定义
 //-------EPROM(只读)--------

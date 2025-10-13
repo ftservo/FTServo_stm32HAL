@@ -77,18 +77,14 @@ int WheelMode(uint8_t ID)
 
 int WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC)
 {
-	uint8_t bBuf[2];
-	if(Speed<0){
-		Speed = -Speed;
-		Speed |= (1<<15);
-	}
-	bBuf[0] = ACC;
-	genWrite(ID, SMS_STS_ACC, bBuf, 1);
-	
-	Host2SCS(bBuf+0, bBuf+1, Speed);
+	uint8_t bBuf[7];
 
-	genWrite(ID, SMS_STS_GOAL_SPEED_L, bBuf, 2);
-	return 1;
+	bBuf[0] = ACC;
+	Host2SCS(bBuf+1, bBuf+2, 0);
+	Host2SCS(bBuf+3, bBuf+4, 0);
+	Host2SCS(bBuf+5, bBuf+6, Speed);
+	
+	return genWrite(ID, SMS_STS_ACC, bBuf, 7);
 }
 
 int CalibrationOfs(uint8_t ID)

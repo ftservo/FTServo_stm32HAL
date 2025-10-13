@@ -1,7 +1,7 @@
 /*
  * SCServo.h
  * 飞特串口舵机接口
- * 日期: 2025.2.26
+ * 日期: 2025.10.13
  * 作者: txl
  */
 
@@ -12,5 +12,6 @@
 #include "SCS.h"
 #include "SCSCL.h"
 #include "SMS_STS.h"
+#include "HLS.h"
 
 #endif

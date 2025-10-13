@@ -1,7 +1,7 @@
 /*
  * INST.h
  * 飞特串行舵机协议指令定义
- * 日期: 2025.6.30
+ * 日期: 2025.10.13
  * 作者: 
  */
 
@@ -14,6 +14,15 @@
 #define NULL ((void *)0)
 #endif
 
+//波特率定义
+#define SCS_1M 0
+#define	SCS_0_5M 1
+#define	SCS_250K 2
+#define	SCS_128K 3
+#define	SCS_115200 4
+#define	SCS_76800 5
+#define	SCS_57600	6
+#define	SCS_38400	7
 
 #define INST_PING 0x01
 #define INST_READ 0x02
