@@ -1,7 +1,7 @@
 /*
  * SMS_STS.c
  * 飞特SMS/STS系列串行舵机应用层程序
- * 日期: 2025.3.3
+ * 日期: 2026.6.2
  * 作者: 
  */
 
@@ -75,6 +75,11 @@ int WheelMode(uint8_t ID)
 	return writeByte(ID, SMS_STS_MODE, 1);		
 }
 
+int SetMode(uint8_t ID, uint8_t Mode)
+{
+	return writeByte(ID, SMS_STS_MODE, Mode);	
+}
+
 int WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC)
 {
 	uint8_t bBuf[7];
@@ -85,6 +90,50 @@ int WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC)
 	Host2SCS(bBuf+5, bBuf+6, Speed);
 	
 	return genWrite(ID, SMS_STS_ACC, bBuf, 7);
+}
+
+int RegWriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC)
+{
+	uint8_t bBuf[7];
+	if(Speed<0){
+		Speed = -Speed;
+		Speed |= (1<<15);
+	}
+
+	bBuf[0] = ACC;
+	Host2SCS(bBuf+1, bBuf+2, 0);
+	Host2SCS(bBuf+3, bBuf+4, 0);
+	Host2SCS(bBuf+5, bBuf+6, Speed);
+	
+	return regWrite(ID, SMS_STS_ACC, bBuf, 7);
+}
+
+void SyncWriteSpe(uint8_t ID[], uint8_t IDN, int16_t Speed[], uint8_t ACC[])
+{
+	uint8_t offbuf[32*7];
+	uint8_t i;
+	uint16_t V;
+  for(i = 0; i<IDN; i++){
+		if(Speed[i]<0){
+			Speed[i] = -Speed[i];
+			Speed[i] |= (1<<15);
+		}
+
+		if(Speed){
+			V = Speed[i];
+		}else{
+			V = 0;
+		}
+		if(ACC){
+			offbuf[i*7] = ACC[i];
+		}else{
+			offbuf[i*7] = 0;
+		}
+		Host2SCS(offbuf+i*7+1, offbuf+i*7+2, 0);
+    Host2SCS(offbuf+i*7+3, offbuf+i*7+4, 0);
+    Host2SCS(offbuf+i*7+5, offbuf+i*7+6, V);
+	}
+  syncWrite(ID, IDN, SMS_STS_ACC, offbuf, 7);
 }
 
 int CalibrationOfs(uint8_t ID)

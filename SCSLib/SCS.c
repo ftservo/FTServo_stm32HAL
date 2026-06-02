@@ -1,7 +1,7 @@
 /*
  * SCS.c
  * SCS串行舵机协议程序
- * 日期: 2025.6.30
+ * 日期: 2026.6.2
  * 作者: txl
  */
  
@@ -305,6 +305,51 @@ int	Reset(uint8_t ID)
 	uint8_t calSum;
 	rFlushSCS();
 	writeBuf(ID, 0, NULL, 0, INST_RESET);
+	wFlushSCS();
+	u8Status = 0;
+	if(!checkHead()){
+		u8Error = SCS_ERR_NO_REPLY;
+		return -1;
+	}
+	u8Error = 0;
+	if(readSCS(bBuf, 4)!=4){
+		u8Error = SCS_ERR_NO_REPLY;
+		return -1;
+	}
+	if(bBuf[0]!=ID && ID!=0xfe){
+		u8Error = SCS_ERR_SLAVE_ID;
+		return -1;
+	}
+	if(bBuf[1]!=2){
+		u8Error = SCS_ERR_BUFF_LEN;
+		return -1;
+	}
+	calSum = ~(bBuf[0]+bBuf[1]+bBuf[2]);
+	if(calSum!=bBuf[3]){
+		u8Error = SCS_ERR_CRC_CMP;
+		return -1;			
+	}
+	u8Status = bBuf[2];
+	return bBuf[0];
+}
+
+//任意位置校准
+int ResetOfs(uint8_t ID, uint16_t Ofs)
+{
+	uint8_t bBuf[7];
+	uint8_t calSum;
+	rFlushSCS();
+	uint8_t CheckSum;
+	bBuf[0] = 0xff;
+	bBuf[1] = 0xff;
+	bBuf[2] = ID;
+	bBuf[3] = 4;
+	bBuf[4] = INST_OFSCAL;
+	Host2SCS(bBuf+5, bBuf+6, Ofs);
+	writeSCS(bBuf, 7);
+	CheckSum = ID + 4 + INST_OFSCAL + bBuf[5] + bBuf[6];
+	CheckSum = ~CheckSum;
+	writeSCS(&CheckSum, 1);	
 	wFlushSCS();
 	u8Status = 0;
 	if(!checkHead()){

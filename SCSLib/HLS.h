@@ -1,7 +1,7 @@
 /*
  * HLS.h
  * 飞特HLS系列串行舵机应用层程序
- * 日期: 2025.10.13
+ * 日期: 2026.6.2
  * 作者: 
  */
 
@@ -33,8 +33,8 @@
 #define HLS_ACC 41
 #define HLS_GOAL_POSITION_L 42
 #define HLS_GOAL_POSITION_H 43
-#define HLS_GOAL_TIME_L 44
-#define HLS_GOAL_TIME_H 45
+#define HLS_GOAL_ELE_L 44
+#define HLS_GOAL_ELE_H 45
 #define HLS_GOAL_SPEED_L 46
 #define HLS_GOAL_SPEED_H 47
 #define HLS_LOCK 55
@@ -56,5 +56,11 @@
 extern int WritePosEx2(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC, uint16_t Torque);//普通写位置指令
 extern int RegWritePosEx2(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC, uint16_t Torque);//异步写位置指令
 extern void SyncWritePosEx2(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[], uint8_t ACC[], uint16_t Torque[]);//同步写位置指令
-extern int WriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque);//恒速模式控制指令
+extern int WriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque);//普通写恒速模式控制指令
+extern int RegWriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque);//异步写恒速模式控制指令
+extern void SyncWriteSpeEx(uint8_t ID[], uint8_t IDN, int16_t Speed[], uint8_t ACC[], uint16_t Torque[]);//同步写恒速模式控制指令
+extern int EleMode(uint8_t ID);//恒流模式
+extern int WriteEle(uint8_t ID, int16_t Torque);//普通恒流模式控制指令
+extern int RegWriteEle(uint8_t ID, int16_t Torque);//异常恒流模式控制指令
+extern void SyncWriteEle(uint8_t ID[], uint8_t IDN, int16_t Torque[]);//同步恒流模式控制指令
 #endif

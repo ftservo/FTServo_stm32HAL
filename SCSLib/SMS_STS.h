@@ -1,7 +1,7 @@
 /*
  * SMS_STS.h
  * 飞特SMS/STS系列串行舵机应用层程序
- * 日期: 2025.10.13
+ * 日期: 2026.6.2
  * 作者: 
  */
 
@@ -57,7 +57,10 @@ extern int WritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC)
 extern int RegWritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC);//异步写位置指令
 extern void SyncWritePosEx(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[], uint8_t ACC[]);//同步写位置指令
 extern int WheelMode(uint8_t ID);//恒速模式
-extern int WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC);//恒速模式控制指令
+extern int SetMode(uint8_t ID, uint8_t Mode);//设置模式
+extern int WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC);//普通写恒速模式控制指令
+extern int RegWriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC);//异步写恒速模式控制指令
+extern void SyncWriteSpe(uint8_t ID[], uint8_t IDN, int16_t Speed[], uint8_t ACC[]);//同步写恒速模式控制指令
 extern int CalibrationOfs(uint8_t ID);//中位校准
 extern int unLockEpromEx(uint8_t ID);
 extern int LockEpromEx(uint8_t ID);
