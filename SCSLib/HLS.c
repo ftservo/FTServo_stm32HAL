@@ -73,7 +73,10 @@ void SyncWritePosEx2(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Spe
 int WriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque)
 {
 	uint8_t bBuf[7];
-
+	if(Speed<0){
+		Speed = -Speed;
+		Speed |= (1<<15);
+	}
 	bBuf[0] = ACC;
 	Host2SCS(bBuf+1, bBuf+2, 0);
 	Host2SCS(bBuf+3, bBuf+4, Torque);
@@ -103,7 +106,7 @@ void SyncWriteSpeEx(uint8_t ID[], uint8_t IDN, int16_t Speed[], uint8_t ACC[], u
 	uint8_t offbuf[32*7];
 	uint8_t i;
 	uint16_t V;
-  for(i = 0; i<IDN; i++){
+  	for(i = 0; i<IDN; i++){
 		if(Speed[i]<0){
 			Speed[i] = -Speed[i];
 			Speed[i] |= (1<<15);
