@@ -33,5 +33,7 @@
 #define INST_SYNC_WRITE 0x83
 #define INST_RESET 0x0A
 #define INST_OFSCAL 0x0B
+#define INST_RECOVER 0x06
+#define INST_REBOOT 0x08
 
 #endif

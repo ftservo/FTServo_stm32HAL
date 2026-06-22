@@ -333,6 +333,49 @@ int	Reset(uint8_t ID)
 	return bBuf[0];
 }
 
+//REBOOT指令，重启舵机
+int	Reboot(uint8_t ID)
+{
+	rFlushSCS();
+	writeBuf(ID, 0, NULL, 0, INST_REBOOT);
+	wFlushSCS();
+}
+
+//Recover指令，恢复EPROM参数至默认值，超时返回-1
+int	Recover(uint8_t ID)
+{
+	uint8_t bBuf[4];
+	uint8_t calSum;
+	rFlushSCS();
+	writeBuf(ID, 0, NULL, 0, INST_RECOVER);
+	wFlushSCS();
+	u8Status = 0;
+	if(!checkHead()){
+		u8Error = SCS_ERR_NO_REPLY;
+		return -1;
+	}
+	u8Error = 0;
+	if(readSCS(bBuf, 4)!=4){
+		u8Error = SCS_ERR_NO_REPLY;
+		return -1;
+	}
+	if(bBuf[0]!=ID && ID!=0xfe){
+		u8Error = SCS_ERR_SLAVE_ID;
+		return -1;
+	}
+	if(bBuf[1]!=2){
+		u8Error = SCS_ERR_BUFF_LEN;
+		return -1;
+	}
+	calSum = ~(bBuf[0]+bBuf[1]+bBuf[2]);
+	if(calSum!=bBuf[3]){
+		u8Error = SCS_ERR_CRC_CMP;
+		return -1;			
+	}
+	u8Status = bBuf[2];
+	return bBuf[0];
+}
+
 //任意位置校准
 int ResetOfs(uint8_t ID, uint16_t Ofs)
 {

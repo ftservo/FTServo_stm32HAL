@@ -29,6 +29,8 @@ extern int readByte(uint8_t ID, uint8_t MemAddr);//读1个字节
 extern int readWord(uint8_t ID, uint8_t MemAddr);//读2个字节
 extern int Ping(uint8_t ID);//Ping指令
 extern int Reset(uint8_t ID);//RESET指令
+extern int Recover(uint8_t ID);//Recover指令
+extern void Reboot(uint8_t ID);//REBOOT指令
 extern int ResetOfs(uint8_t ID, uint16_t Ofs);//任意位置校准
 extern int syncReadPacketTx(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t nLen);//同步读指令包发送
 extern int syncReadPacketRx(uint8_t ID, uint8_t *nDat);//同步读返回包解码，成功返回内存字节数，失败返回0
