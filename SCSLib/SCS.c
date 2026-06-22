@@ -334,7 +334,7 @@ int	Reset(uint8_t ID)
 }
 
 //REBOOTÖ¸Áî£¬ÖØÆô¶æ»ú
-int	Reboot(uint8_t ID)
+void	Reboot(uint8_t ID)
 {
 	rFlushSCS();
 	writeBuf(ID, 0, NULL, 0, INST_REBOOT);
