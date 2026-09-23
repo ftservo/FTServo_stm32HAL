@@ -1,0 +1,9 @@
+﻿# 汇编文件不计入语言统计
+*.s linguist-vendored
+*.asm linguist-vendored
+*.inc linguist-vendored
+
+# C/C++ 文件识别为 C++
+*.cpp linguist-language=C++
+*.h linguist-language=C++
+*.hpp linguist-language=C++
