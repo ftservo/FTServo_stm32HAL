@@ -1,18 +1,18 @@
 /*
  * SCS.c
- * SCS´®ĞĞ¶æ»úĞ­Òé³ÌĞò
- * ÈÕÆÚ: 2026.6.22
- * ×÷Õß: txl
+ * SCSä¸²è¡Œèˆµæœºåè®®ç¨‹åº
+ * æ—¥æœŸ: 2026.10.8
+ * ä½œè€…: txl
  */
- 
+
 #include <stdlib.h>
 #include "INST.h"
 #include "SCS.h"
 
-static uint8_t Level =1;//¶æ»ú·µ»ØµÈ¼¶1,Ä¬ÈÏĞ´Ö¸Áî¿ªÆôÓ¦´ğ
-static uint8_t End = 0;//´¦ÀíÆ÷´óĞ¡¶Ë½á¹¹,Ä¬ÈÏĞ¡¶Ë´æ´¢¸ñÊ½
-static uint8_t u8Status;//¶æ»ú×´Ì¬
-static uint8_t u8Error;//Í¨ĞÅ×´Ì¬
+static uint8_t Level =1;//èˆµæœºè¿”å›ç­‰çº§1,é»˜è®¤å†™æŒ‡ä»¤å¼€å¯åº”ç­”
+static uint8_t End = 0;//å¤„ç†å™¨å¤§å°ç«¯ç»“æ„,é»˜è®¤å°ç«¯å­˜å‚¨æ ¼å¼
+static uint8_t u8Status;//èˆµæœºçŠ¶æ€
+static uint8_t u8Error;//é€šä¿¡çŠ¶æ€
 uint8_t syncReadRxPacketIndex;
 uint8_t syncReadRxPacketLen;
 uint8_t *syncReadRxPacket;
@@ -45,8 +45,8 @@ int getLastError(void)
 	return u8Error;
 }
 
-//1¸ö16Î»Êı²ğ·ÖÎª2¸ö8Î»Êı
-//DataLÎªµÍÎ»£¬DataHÎª¸ßÎ»
+//1ä¸ª16ä½æ•°æ‹†åˆ†ä¸º2ä¸ª8ä½æ•°
+//DataLä¸ºä½ä½ï¼ŒDataHä¸ºé«˜ä½
 void Host2SCS(uint8_t *DataL, uint8_t* DataH, int Data)
 {
 	if(End){
@@ -58,8 +58,8 @@ void Host2SCS(uint8_t *DataL, uint8_t* DataH, int Data)
 	}
 }
 
-//2¸ö8Î»Êı×éºÏÎª1¸ö16Î»Êı
-//DataLÎªµÍÎ»£¬DataHÎª¸ßÎ»
+//2ä¸ª8ä½æ•°ç»„åˆä¸º1ä¸ª16ä½æ•°
+//DataLä¸ºä½ä½ï¼ŒDataHä¸ºé«˜ä½
 int SCS2Host(uint8_t DataL, uint8_t DataH)
 {
 	int Data;
@@ -90,7 +90,7 @@ void writeBuf(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen, uint8_t 
 		bBuf[3] = msgLen;
 		bBuf[5] = MemAddr;
 		writeSCS(bBuf, 6);
-		
+
 	}else{
 		bBuf[3] = msgLen;
 		writeSCS(bBuf, 5);
@@ -106,8 +106,8 @@ void writeBuf(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen, uint8_t 
 	writeSCS(&CheckSum, 1);
 }
 
-//ÆÕÍ¨Ğ´Ö¸Áî
-//¶æ»úID£¬MemAddrÄÚ´æ±íµØÖ·£¬Ğ´ÈëÊı¾İ£¬Ğ´Èë³¤¶È
+//æ™®é€šå†™æŒ‡ä»¤
+//èˆµæœºIDï¼ŒMemAddrå†…å­˜è¡¨åœ°å€ï¼Œå†™å…¥æ•°æ®ï¼Œå†™å…¥é•¿åº¦
 int genWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 {
 	rFlushSCS();
@@ -116,8 +116,8 @@ int genWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 	return Ack(ID);
 }
 
-//Òì²½Ğ´Ö¸Áî
-//¶æ»úID£¬MemAddrÄÚ´æ±íµØÖ·£¬Ğ´ÈëÊı¾İ£¬Ğ´Èë³¤¶È
+//å¼‚æ­¥å†™æŒ‡ä»¤
+//èˆµæœºIDï¼ŒMemAddrå†…å­˜è¡¨åœ°å€ï¼Œå†™å…¥æ•°æ®ï¼Œå†™å…¥é•¿åº¦
 int regWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 {
 	rFlushSCS();
@@ -126,7 +126,7 @@ int regWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 	return Ack(ID);
 }
 
-//Òì²½Ğ´Ö´ĞĞĞĞ
+//å¼‚æ­¥å†™æ‰§è¡Œè¡Œ
 int regAction(uint8_t ID)
 {
 	rFlushSCS();
@@ -135,15 +135,21 @@ int regAction(uint8_t ID)
 	return Ack(ID);
 }
 
-//Í¬²½Ğ´Ö¸Áî
-//¶æ»úID[]Êı×é£¬IDNÊı×é³¤¶È£¬MemAddrÄÚ´æ±íµØÖ·£¬Ğ´ÈëÊı¾İ£¬Ğ´Èë³¤¶È
+//åŒæ­¥å†™æŒ‡ä»¤
+//èˆµæœºID[]æ•°ç»„ï¼ŒIDNæ•°ç»„é•¿åº¦ï¼ŒMemAddrå†…å­˜è¡¨åœ°å€ï¼Œå†™å…¥æ•°æ®ï¼Œå†™å…¥é•¿åº¦
 void syncWrite(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 {
 	uint8_t mesLen = ((nLen+1)*IDN+4);
 	uint8_t Sum = 0;
 	uint8_t bBuf[7];
 	uint8_t i, j;
-	
+
+	//æ•´å¸§é•¿åº¦(å«æ ¡éªŒå’Œ)ä¸å¾—è¶…è¿‡å‘é€ç¼“å†²åŒº
+	if((7+IDN*(nLen+1)+1)>SCS_TX_BUF_SIZE){
+		u8Error = SCS_ERR_BUFF_LEN;
+		return;
+	}
+
 	bBuf[0] = 0xff;
 	bBuf[1] = 0xff;
 	bBuf[2] = 0xfe;
@@ -151,7 +157,7 @@ void syncWrite(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t *nDat, uint8_
 	bBuf[4] = INST_SYNC_WRITE;
 	bBuf[5] = MemAddr;
 	bBuf[6] = nLen;
-	
+
 	rFlushSCS();
 	writeSCS(bBuf, 7);
 
@@ -188,8 +194,8 @@ int writeWord(uint8_t ID, uint8_t MemAddr, uint16_t wDat)
 	return Ack(ID);
 }
 
-//¶ÁÖ¸Áî
-//¶æ»úID£¬MemAddrÄÚ´æ±íµØÖ·£¬·µ»ØÊı¾İnData£¬Êı¾İ³¤¶ÈnLen
+//è¯»æŒ‡ä»¤
+//èˆµæœºIDï¼ŒMemAddrå†…å­˜è¡¨åœ°å€ï¼Œè¿”å›æ•°æ®nDataï¼Œæ•°æ®é•¿åº¦nLen
 int Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen)
 {
 	int Size;
@@ -238,7 +244,7 @@ int Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen)
 	return Size;
 }
 
-//¶Á1×Ö½Ú£¬³¬Ê±·µ»Ø-1
+//è¯»1å­—èŠ‚ï¼Œè¶…æ—¶è¿”å›-1
 int readByte(uint8_t ID, uint8_t MemAddr)
 {
 	uint8_t bDat;
@@ -250,7 +256,7 @@ int readByte(uint8_t ID, uint8_t MemAddr)
 	}
 }
 
-//¶Á2×Ö½Ú£¬³¬Ê±·µ»Ø-1
+//è¯»2å­—èŠ‚ï¼Œè¶…æ—¶è¿”å›-1
 int readWord(uint8_t ID, uint8_t MemAddr)
 {	
 	uint8_t nDat[2];
@@ -258,12 +264,12 @@ int readWord(uint8_t ID, uint8_t MemAddr)
 	uint16_t wDat;
 	Size = Read(ID, MemAddr, nDat, 2);
 	if(Size!=2)
-		return -1;
+	return -1;
 	wDat = SCS2Host(nDat[0], nDat[1]);
 	return wDat;
 }
 
-//PingÖ¸Áî£¬·µ»Ø¶æ»úID£¬³¬Ê±·µ»Ø-1
+//PingæŒ‡ä»¤ï¼Œè¿”å›èˆµæœºIDï¼Œè¶…æ—¶è¿”å›-1
 int	Ping(uint8_t ID)
 {
 	uint8_t bBuf[4];
@@ -298,7 +304,7 @@ int	Ping(uint8_t ID)
 	return bBuf[0];
 }
 
-//RESETÖ¸Áî£¬ÖØÖÃ×´Ì¬(Çå³ıÈ¦Êı)£¬³¬Ê±·µ»Ø-1
+//RESETæŒ‡ä»¤ï¼Œé‡ç½®çŠ¶æ€(æ¸…é™¤åœˆæ•°)ï¼Œè¶…æ—¶è¿”å›-1
 int	Reset(uint8_t ID)
 {
 	uint8_t bBuf[4];
@@ -333,7 +339,7 @@ int	Reset(uint8_t ID)
 	return bBuf[0];
 }
 
-//REBOOTÖ¸Áî£¬ÖØÆô¶æ»ú
+//REBOOTæŒ‡ä»¤ï¼Œé‡å¯èˆµæœº
 void	Reboot(uint8_t ID)
 {
 	rFlushSCS();
@@ -341,7 +347,7 @@ void	Reboot(uint8_t ID)
 	wFlushSCS();
 }
 
-//RecoverÖ¸Áî£¬»Ö¸´EPROM²ÎÊıÖÁÄ¬ÈÏÖµ£¬³¬Ê±·µ»Ø-1
+//RecoveræŒ‡ä»¤ï¼Œæ¢å¤EPROMå‚æ•°è‡³é»˜è®¤å€¼ï¼Œè¶…æ—¶è¿”å›-1
 int	Recover(uint8_t ID)
 {
 	uint8_t bBuf[4];
@@ -376,7 +382,7 @@ int	Recover(uint8_t ID)
 	return bBuf[0];
 }
 
-//ÈÎÒâÎ»ÖÃĞ£×¼
+//ä»»æ„ä½ç½®æ ¡å‡†
 int ResetOfs(uint8_t ID, uint16_t Ofs)
 {
 	uint8_t bBuf[7];
@@ -443,7 +449,7 @@ int checkHead(void)
 	return 1;
 }
 
-//Ö¸ÁîÓ¦´ğ
+//æŒ‡ä»¤åº”ç­”
 int	Ack(uint8_t ID)
 {
 	uint8_t bBuf[4];
@@ -498,7 +504,7 @@ int	syncReadPacketTx(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t nLen)
 	checkSum = ~checkSum;
 	writeByteSCS(checkSum);
 	wFlushSCS();
-	
+
 	syncReadRxBuffLen = readSCS(syncReadRxBuff, syncReadRxBuffMax);
 	return syncReadRxBuffLen;
 }
@@ -523,23 +529,34 @@ int syncReadPacketRx(uint8_t ID, uint8_t *nDat)
 	syncReadRxPacket = nDat;
 	syncReadRxPacketIndex = 0;
 	u8Status = 0;
+	u8Error = 0;
 	while((syncReadRxBuffIndex+6+syncReadRxPacketLen)<=syncReadRxBuffLen){
 		uint8_t bBuf[] = {0, 0, 0};
 		uint8_t calSum = 0;
+		uint8_t found = 0;
 		while(syncReadRxBuffIndex<syncReadRxBuffLen){
 			bBuf[0] = bBuf[1];
 			bBuf[1] = bBuf[2];
 			bBuf[2] = syncReadRxBuff[syncReadRxBuffIndex++];
 			if(bBuf[0]==0xff && bBuf[1]==0xff && bBuf[2]!=0xff){
-				u8Error = SCS_ERR_NO_REPLY;
-				break;
+				found = 1;
+				break;//æ£€æµ‹åˆ°å¸§å¤´
 			}
+		}
+		if(!found){
+			u8Error = SCS_ERR_NO_REPLY;
+			return 0;//ç¼“å†²åŒºå·²æ‰«æå®Œï¼Œæœªæ‰¾åˆ°å¸§å¤´
 		}
 		if(bBuf[2]!=ID){
 			u8Error = SCS_ERR_SLAVE_ID;
 			continue;
 		}
+		if((syncReadRxBuffIndex+syncReadRxPacketLen+2)>syncReadRxBuffLen){
+			u8Error = SCS_ERR_NO_REPLY;
+			return 0;//å‰©ä½™é•¿åº¦ä¸è¶³ä¸€ä¸ªå®Œæ•´è¿”å›åŒ…
+		}
 		if(syncReadRxBuff[syncReadRxBuffIndex++]!=(syncReadRxPacketLen+2)){
+			u8Error = SCS_ERR_BUFF_LEN;
 			continue;
 		}
 		u8Status = syncReadRxBuff[syncReadRxBuffIndex++];
@@ -553,8 +570,10 @@ int syncReadPacketRx(uint8_t ID, uint8_t *nDat)
 			u8Error = SCS_ERR_CRC_CMP;
 			return 0;
 		}
+		u8Error = 0;
 		return syncReadRxPacketLen;
 	}
+	u8Error = SCS_ERR_NO_REPLY;
 	return 0;
 }
 
@@ -569,14 +588,13 @@ int syncReadRxPacketToByte(void)
 int syncReadRxPacketToWrod(uint8_t negBit)
 {
 	if((syncReadRxPacketIndex+1)>=syncReadRxPacketLen){
+		u8Error = SCS_ERR_BUFF_LEN;
 		return -1;
 	}
 	int Word = SCS2Host(syncReadRxPacket[syncReadRxPacketIndex], syncReadRxPacket[syncReadRxPacketIndex+1]);
 	syncReadRxPacketIndex += 2;
-	if(negBit){
-		if(Word&(1<<negBit)){
-			Word = -(Word & ~(1<<negBit));
-		}
+	if(negBit && (Word&(1<<negBit))){//negBit=0è¡¨ç¤ºæ— æ–¹å‘ä½
+		Word = -(Word & ~(1<<negBit));
 	}
 	return Word;
 }

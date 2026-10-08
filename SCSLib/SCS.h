@@ -1,8 +1,8 @@
 /*
  * SCS.h
- * ·ÉÌØ´®ĞĞ¶æ»úÍ¨ĞÅĞ­Òé³ÌĞò
- * ÈÕÆÚ: 2026.6.22
- * ×÷Õß: txl
+ * é£ç‰¹ä¸²è¡Œèˆµæœºé€šä¿¡åè®®ç¨‹åº
+ * æ—¥æœŸ: 2026.10.8
+ * ä½œè€…: txl
  */
 
 #ifndef _SCS_H
@@ -12,46 +12,49 @@
 
 enum SCS_ERR_LIST
 {
-  SCS_ERR_NO_REPLY = 1,
-  SCS_ERR_CRC_CMP  = 2,
-  SCS_ERR_SLAVE_ID = 3,
+	SCS_ERR_NO_REPLY = 1,
+	SCS_ERR_CRC_CMP  = 2,
+	SCS_ERR_SLAVE_ID = 3,
 	SCS_ERR_BUFF_LEN = 4,
 };
 
-extern int genWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen);//ÆÕÍ¨Ğ´Ö¸Áî
-extern int regWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen);//Òì²½Ğ´Ö¸Áî
-extern int regAction(uint8_t ID);//Òì²½Ğ´Ö´ĞĞĞĞ
-extern void syncWrite(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen);//Í¬²½Ğ´Ö¸Áî
-extern int writeByte(uint8_t ID, uint8_t MemAddr, uint8_t bDat);//Ğ´1¸ö×Ö½Ú
-extern int writeWord(uint8_t ID, uint8_t MemAddr, uint16_t wDat);//Ğ´2¸ö×Ö½Ú
-extern int Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen);//¶ÁÖ¸Áî
-extern int readByte(uint8_t ID, uint8_t MemAddr);//¶Á1¸ö×Ö½Ú
-extern int readWord(uint8_t ID, uint8_t MemAddr);//¶Á2¸ö×Ö½Ú
-extern int Ping(uint8_t ID);//PingÖ¸Áî
-extern int Reset(uint8_t ID);//RESETÖ¸Áî
-extern int Recover(uint8_t ID);//RecoverÖ¸Áî
-extern void Reboot(uint8_t ID);//REBOOTÖ¸Áî
-extern int ResetOfs(uint8_t ID, uint16_t Ofs);//ÈÎÒâÎ»ÖÃĞ£×¼
-extern int syncReadPacketTx(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t nLen);//Í¬²½¶ÁÖ¸Áî°ü·¢ËÍ
-extern int syncReadPacketRx(uint8_t ID, uint8_t *nDat);//Í¬²½¶Á·µ»Ø°ü½âÂë£¬³É¹¦·µ»ØÄÚ´æ×Ö½ÚÊı£¬Ê§°Ü·µ»Ø0
-extern int syncReadRxPacketToByte(void);//½âÂëÒ»¸ö×Ö½Ú
-extern int syncReadRxPacketToWrod(uint8_t negBit);//½âÂëÁ½¸ö×Ö½Ú£¬negBitÎª·½ÏòÎª£¬negBit=0±íÊ¾ÎŞ·½Ïò
-extern void syncReadBegin(uint8_t IDN, uint8_t rxLen);//Í¬²½¶Á¿ªÊ¼
-extern void syncReadEnd(void);//Í¬²½¶Á½áÊø
+//å‘é€ç¼“å†²åŒºå¤§å°(å­—èŠ‚)ï¼Œæ•´å¸§æŒ‡ä»¤(å«æ ¡éªŒå’Œ)ä¸å¾—è¶…è¿‡è¯¥å€¼
+#define SCS_TX_BUF_SIZE 128
+
+extern int genWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen);//æ™®é€šå†™æŒ‡ä»¤
+extern int regWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen);//å¼‚æ­¥å†™æŒ‡ä»¤
+extern int regAction(uint8_t ID);//å¼‚æ­¥å†™æ‰§è¡Œè¡Œ
+extern void syncWrite(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen);//åŒæ­¥å†™æŒ‡ä»¤
+extern int writeByte(uint8_t ID, uint8_t MemAddr, uint8_t bDat);//å†™1ä¸ªå­—èŠ‚
+extern int writeWord(uint8_t ID, uint8_t MemAddr, uint16_t wDat);//å†™2ä¸ªå­—èŠ‚
+extern int Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen);//è¯»æŒ‡ä»¤
+extern int readByte(uint8_t ID, uint8_t MemAddr);//è¯»1ä¸ªå­—èŠ‚
+extern int readWord(uint8_t ID, uint8_t MemAddr);//è¯»2ä¸ªå­—èŠ‚
+extern int Ping(uint8_t ID);//PingæŒ‡ä»¤
+extern int Reset(uint8_t ID);//RESETæŒ‡ä»¤
+extern int Recover(uint8_t ID);//RecoveræŒ‡ä»¤
+extern void Reboot(uint8_t ID);//REBOOTæŒ‡ä»¤
+extern int ResetOfs(uint8_t ID, uint16_t Ofs);//ä»»æ„ä½ç½®æ ¡å‡†
+extern int syncReadPacketTx(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t nLen);//åŒæ­¥è¯»æŒ‡ä»¤åŒ…å‘é€
+extern int syncReadPacketRx(uint8_t ID, uint8_t *nDat);//åŒæ­¥è¯»è¿”å›åŒ…è§£ç ï¼ŒæˆåŠŸè¿”å›å†…å­˜å­—èŠ‚æ•°ï¼Œå¤±è´¥è¿”å›0
+extern int syncReadRxPacketToByte(void);//è§£ç ä¸€ä¸ªå­—èŠ‚
+extern int syncReadRxPacketToWrod(uint8_t negBit);//è§£ç ä¸¤ä¸ªå­—èŠ‚ï¼ŒnegBitä¸ºæ–¹å‘ä¸ºï¼ŒnegBit=0è¡¨ç¤ºæ— æ–¹å‘
+extern void syncReadBegin(uint8_t IDN, uint8_t rxLen);//åŒæ­¥è¯»å¼€å§‹
+extern void syncReadEnd(void);//åŒæ­¥è¯»ç»“æŸ
 
 extern void writeBuf(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen, uint8_t Fun);
-extern void Host2SCS(uint8_t *DataL, uint8_t* DataH, int Data);//1¸ö16Î»Êı²ğ·ÖÎª2¸ö8Î»Êı
-extern int SCS2Host(uint8_t DataL, uint8_t DataH);//2¸ö8Î»Êı×éºÏÎª1¸ö16Î»Êı
-extern int Ack(uint8_t ID);//Ó¦´ğ
-extern int checkHead(void);//Ö¡Í·¼ì²â
+extern void Host2SCS(uint8_t *DataL, uint8_t* DataH, int Data);//1ä¸ª16ä½æ•°æ‹†åˆ†ä¸º2ä¸ª8ä½æ•°
+extern int SCS2Host(uint8_t DataL, uint8_t DataH);//2ä¸ª8ä½æ•°ç»„åˆä¸º1ä¸ª16ä½æ•°
+extern int Ack(uint8_t ID);//åº”ç­”
+extern int checkHead(void);//å¸§å¤´æ£€æµ‹
 
 extern void setEnd(uint8_t _End);
 extern uint8_t getEnd(void);
 extern void setLevel(uint8_t _Level);
 extern int getState(void);
 extern int getLastError(void);
-	
-//Ó²¼ş½Ó¿Úº¯Êı
+
+//ç¡¬ä»¶æ¥å£å‡½æ•°
 extern int writeSCS(uint8_t *nDat, int nLen);
 extern int writeByteSCS(unsigned char bDat);
 extern int readSCS(uint8_t *nDat, int nLen);

@@ -1,25 +1,26 @@
 /*
  * SCServo.c
- * ·ÉÌØ¶æ»úÓ²¼ş½Ó¿Ú²ã³ÌĞò
- * ÈÕÆÚ: 2024.12.2
- * ×÷Õß: txl
+ * é£ç‰¹èˆµæœºç¡¬ä»¶æ¥å£å±‚ç¨‹åº
+ * æ—¥æœŸ: 2026.10.8
+ * ä½œè€…: txl
  */
 #include <stdint.h>
+#include "SCS.h"
 
-uint8_t wBuf[128];
+uint8_t wBuf[SCS_TX_BUF_SIZE];
 uint8_t wLen = 0;
 
 void ftUart_Send(uint8_t *nDat, int nLen);
 int ftUart_Read(uint8_t *nDat, int nLen);
 void ftBus_Delay(void);
 
-//UART ½ÓÊÕÊı¾İ½Ó¿Ú
+//UART æ¥æ”¶æ•°æ®æ¥å£
 int readSCS(unsigned char *nDat, int nLen)
 {
 	return ftUart_Read(nDat, nLen);
 }
 
-//UART ·¢ËÍÊı¾İ½Ó¿Ú
+//UART å‘é€æ•°æ®æ¥å£
 int writeSCS(unsigned char *nDat, int nLen)
 {
 	while(nLen--){
@@ -41,13 +42,13 @@ int writeByteSCS(unsigned char bDat)
 	return wLen;
 }
 
-//½ÓÊÕ»º³åÇøË¢ĞÂ
+//æ¥æ”¶ç¼“å†²åŒºåˆ·æ–°
 void rFlushSCS()
 {
 	ftBus_Delay();
 }
 
-//·¢ËÍ»º³åÇøË¢ĞÂ
+//å‘é€ç¼“å†²åŒºåˆ·æ–°
 void wFlushSCS()
 {
 	if(wLen){

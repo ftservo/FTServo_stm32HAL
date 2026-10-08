@@ -1,7 +1,7 @@
 /*
  * SCSCL.c
  * 飞特SCSCL系列串行舵机应用层程序
- * 日期: 2024.12.2
+ * 日期: 2026.10.8
  * 作者: txl
  */
 
@@ -17,7 +17,7 @@ int WritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
 	Host2SCS(bBuf+0, bBuf+1, Position);
 	Host2SCS(bBuf+2, bBuf+3, Time);
 	Host2SCS(bBuf+4, bBuf+5, Speed);
-	
+
 	return genWrite(ID, SCSCL_GOAL_POSITION_L, bBuf, 6);
 }
 
@@ -27,7 +27,7 @@ int RegWritePos(uint8_t ID, uint16_t Position, uint16_t Time, uint16_t Speed)
 	Host2SCS(bBuf+0, bBuf+1, Position);
 	Host2SCS(bBuf+2, bBuf+3, Time);
 	Host2SCS(bBuf+4, bBuf+5, Speed);
-	
+
 	return regWrite(ID, SCSCL_GOAL_POSITION_L, bBuf, 6);
 }
 
@@ -38,9 +38,12 @@ void RegWriteAction()
 
 void SyncWritePos(uint8_t ID[], uint8_t IDN, uint16_t Position[], uint16_t Time[], uint16_t Speed[])
 {
-  uint8_t offbuf[32*6];
+	uint8_t offbuf[32*6];
 	uint8_t i;
-  for(i = 0; i<IDN; i++){
+	if(IDN>32){
+		return;//IDN exceeds offbuf capacity
+	}
+	for(i = 0; i<IDN; i++){
 		uint16_t T, V;
 		if(Time){
 			T = Time[i];
@@ -52,11 +55,11 @@ void SyncWritePos(uint8_t ID[], uint8_t IDN, uint16_t Position[], uint16_t Time[
 		}else{
 			V = 0;
 		}
-    Host2SCS(offbuf+i*6+0, offbuf+i*6+1, Position[i]);
-    Host2SCS(offbuf+i*6+2, offbuf+i*6+3, T);
-    Host2SCS(offbuf+i*6+4, offbuf+i*6+5, V);
-  }
-  syncWrite(ID, IDN, SCSCL_GOAL_POSITION_L, offbuf, 6);
+		Host2SCS(offbuf+i*6+0, offbuf+i*6+1, Position[i]);
+		Host2SCS(offbuf+i*6+2, offbuf+i*6+3, T);
+		Host2SCS(offbuf+i*6+4, offbuf+i*6+5, V);
+	}
+	syncWrite(ID, IDN, SCSCL_GOAL_POSITION_L, offbuf, 6);
 }
 
 int PWMMode(uint8_t ID)
@@ -103,7 +106,7 @@ int FeedBack(int ID)
 	}
 	return nLen;
 }
-	
+
 int ReadPos(int ID)
 {
 	int Pos = -1;
@@ -189,9 +192,9 @@ int ReadCurrent(int ID)
 {
 	int Current = -1;
 	if(ID==-1){
-		Current = Mem[SCSCL_PRESENT_CURRENT_H-SCSCL_PRESENT_POSITION_L];
+		Current = Mem[SCSCL_PRESENT_CURRENT_L-SCSCL_PRESENT_POSITION_L];
 		Current <<= 8;
-		Current |= Mem[SCSCL_PRESENT_CURRENT_L-SCSCL_PRESENT_POSITION_L];
+		Current |= Mem[SCSCL_PRESENT_CURRENT_H-SCSCL_PRESENT_POSITION_L];
 	}else{
 		Current = readWord(ID, SCSCL_PRESENT_CURRENT_L);
 	}

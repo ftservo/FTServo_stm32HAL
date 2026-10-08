@@ -1,7 +1,7 @@
 /*
  * HLS.c
  * 飞特HLS系列串行舵机应用层程序
- * 日期: 2025.10.10
+ * 日期: 2026.10.8
  * 作者: 
  */
 
@@ -22,7 +22,7 @@ int WritePosEx2(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC, uint1
 	Host2SCS(bBuf+1, bBuf+2, Position);
 	Host2SCS(bBuf+3, bBuf+4, Torque);
 	Host2SCS(bBuf+5, bBuf+6, Speed);
-	
+
 	return genWrite(ID, HLS_ACC, bBuf, 7);
 }
 
@@ -38,7 +38,7 @@ int RegWritePosEx2(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC, ui
 	Host2SCS(bBuf+1, bBuf+2, Position);
 	Host2SCS(bBuf+3, bBuf+4, Torque);
 	Host2SCS(bBuf+5, bBuf+6, Speed);
-	
+
 	return regWrite(ID, HLS_ACC, bBuf, 7);
 }
 
@@ -46,11 +46,16 @@ void SyncWritePosEx2(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Spe
 {
 	uint8_t offbuf[32*7];
 	uint8_t i;
+	uint16_t P;
 	uint16_t V;
-  for(i = 0; i<IDN; i++){
+	if(IDN>32){
+		return;//IDN exceeds offbuf capacity
+	}
+	for(i = 0; i<IDN; i++){
+		P = Position[i];
 		if(Position[i]<0){
-			Position[i] = -Position[i];
-			Position[i] |= (1<<15);
+			P = -P;
+			P |= (1<<15);
 		}
 
 		if(Speed){
@@ -63,11 +68,11 @@ void SyncWritePosEx2(uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Spe
 		}else{
 			offbuf[i*7] = 0;
 		}
-		Host2SCS(offbuf+i*7+1, offbuf+i*7+2, Position[i]);
-    Host2SCS(offbuf+i*7+3, offbuf+i*7+4, Torque[i]);
-    Host2SCS(offbuf+i*7+5, offbuf+i*7+6, V);
+		Host2SCS(offbuf+i*7+1, offbuf+i*7+2, P);
+		Host2SCS(offbuf+i*7+3, offbuf+i*7+4, Torque[i]);
+		Host2SCS(offbuf+i*7+5, offbuf+i*7+6, V);
 	}
-  syncWrite(ID, IDN, HLS_ACC, offbuf, 7);
+	syncWrite(ID, IDN, HLS_ACC, offbuf, 7);
 }
 
 int WriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque)
@@ -81,7 +86,7 @@ int WriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque)
 	Host2SCS(bBuf+1, bBuf+2, 0);
 	Host2SCS(bBuf+3, bBuf+4, Torque);
 	Host2SCS(bBuf+5, bBuf+6, Speed);
-	
+
 	return genWrite(ID, HLS_ACC, bBuf, 7);
 }
 
@@ -97,7 +102,7 @@ int RegWriteSpeEx(uint8_t ID, int16_t Speed, uint8_t ACC, uint16_t Torque)
 	Host2SCS(bBuf+1, bBuf+2, 0);
 	Host2SCS(bBuf+3, bBuf+4, Torque);
 	Host2SCS(bBuf+5, bBuf+6, Speed);
-	
+
 	return regWrite(ID, HLS_ACC, bBuf, 7);
 }
 
@@ -106,27 +111,26 @@ void SyncWriteSpeEx(uint8_t ID[], uint8_t IDN, int16_t Speed[], uint8_t ACC[], u
 	uint8_t offbuf[32*7];
 	uint8_t i;
 	uint16_t V;
-  	for(i = 0; i<IDN; i++){
+	if(IDN>32){
+		return;//IDN exceeds offbuf capacity
+	}
+	for(i = 0; i<IDN; i++){
+		V = Speed[i];
 		if(Speed[i]<0){
-			Speed[i] = -Speed[i];
-			Speed[i] |= (1<<15);
+			V = -V;
+			V |= (1<<15);
 		}
 
-		if(Speed){
-			V = Speed[i];
-		}else{
-			V = 0;
-		}
 		if(ACC){
 			offbuf[i*7] = ACC[i];
 		}else{
 			offbuf[i*7] = 0;
 		}
 		Host2SCS(offbuf+i*7+1, offbuf+i*7+2, 0);
-    Host2SCS(offbuf+i*7+3, offbuf+i*7+4, Torque[i]);
-    Host2SCS(offbuf+i*7+5, offbuf+i*7+6, V);
+		Host2SCS(offbuf+i*7+3, offbuf+i*7+4, Torque[i]);
+		Host2SCS(offbuf+i*7+5, offbuf+i*7+6, V);
 	}
-  syncWrite(ID, IDN, HLS_ACC, offbuf, 7);
+	syncWrite(ID, IDN, HLS_ACC, offbuf, 7);
 }
 
 int EleMode(uint8_t ID)
@@ -159,12 +163,17 @@ void SyncWriteEle(uint8_t ID[], uint8_t IDN, int16_t Torque[])
 {
 	uint8_t offbuf[32*2];
 	uint8_t i;
-  for(i = 0; i<IDN; i++){
-		if(Torque[i]<0){
-			Torque[i] = -Torque[i];
-			Torque[i] |= (1<<15);
-		}
-    Host2SCS(offbuf+i*7+0, offbuf+i*7+1, Torque[i]);
+	uint16_t T;
+	if(IDN>32){
+		return;//IDN exceeds offbuf capacity
 	}
-  syncWrite(ID, IDN, HLS_GOAL_ELE_L, offbuf, 2);
+	for(i = 0; i<IDN; i++){
+		T = Torque[i];
+		if(Torque[i]<0){
+			T = -T;
+			T |= (1<<15);
+		}
+		Host2SCS(offbuf+i*2+0, offbuf+i*2+1, T);
+	}
+	syncWrite(ID, IDN, HLS_GOAL_ELE_L, offbuf, 2);
 }
