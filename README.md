@@ -1,11 +1,27 @@
 # FTServo-stm32HAL
 
-FEETECH BUS Servo stm32HAL library
+STM32 HAL library for FEETECH bus servos (SCSCL / SMS_STS / HLS series).
 
-1¡¢stm32CubeMx°æ±¾6.1.2  
-2¡¢Ê¹ÓÃÇ°ÏÈÊ¹ÓÃstm32CubeMxÖØÉú³ÉHAL¿â  
-3¡¢ÊµÀıÄ¬ÈÏÊ¹ÓÃstm32f103(stm32f1.ioc)/stm32f407(stm32f4.ioc)Á½¸öĞ¾Æ¬ĞÍºÅ£¬¿É¸ù¾İÊµ¼ÊÖØÅäÖÃstm32CubeMx  
-4¡¢¶æ»ú¿ØÖÆÄ¬ÈÏÊ¹ÓÃusart2£¨Òı½ÅÄ¬ÈÏ£©²¨ÌØÂÊ1M£¬¿É¸ù¾İÊµ¼ÊÖØÅäÖÃstm32CubeMx  
-5¡¢ÖØÅäÖÃ¶æ»ú¿ØÖÆ´®¿ÚĞèÒªĞŞ¸Ä\Core\Src\main.cÖĞµÄftUart_Send\ftUart_Readº¯Êı  
-6¡¢ÊµÀıÄ¬ÈÏÊ¹ÓÃusart1£¨Òı½ÅÄ¬ÈÏ£©½øĞĞ´®¿ÚÖØ¶¨Ïò£¬ÓÃÓÚĞÅÏ¢´òÓ¡Êä³ö£¬Ä¬ÈÏ²¨ÌØÂÊ115200£¬¿É¸ù¾İÊµ¼ÊÖØÅäÖÃstm32CubeMxÓë\Core\Src\main.cÖĞµÄfputcº¯Êı  
-7¡¢Example.docÎªÊµÀıÊ¹ÓÃ²Î¿¼ÎÄµµ
+## ä¸­æ–‡è¯´æ˜
+
+1. stm32CubeMxç‰ˆæœ¬6.1.2  
+2. ä½¿ç”¨å‰å…ˆä½¿ç”¨stm32CubeMxé‡ç”ŸæˆHALåº“  
+3. å®ä¾‹é»˜è®¤ä½¿ç”¨stm32f103(stm32f1.ioc)/stm32f407(stm32f4.ioc)ä¸¤ä¸ªèŠ¯ç‰‡å‹å·ï¼Œå¯æ ¹æ®å®é™…é‡é…ç½®stm32CubeMx  
+4. èˆµæœºæ§åˆ¶é»˜è®¤ä½¿ç”¨usart2ï¼ˆå¼•è„šé»˜è®¤ï¼‰æ³¢ç‰¹ç‡1Mï¼Œå¯æ ¹æ®å®é™…é‡é…ç½®stm32CubeMx  
+5. é‡é…ç½®èˆµæœºæ§åˆ¶ä¸²å£éœ€è¦ä¿®æ”¹\Core\Src\main.cä¸­çš„ftUart_Send\ftUart_Readå‡½æ•°  
+6. å®ä¾‹é»˜è®¤ä½¿ç”¨usart1ï¼ˆå¼•è„šé»˜è®¤ï¼‰è¿›è¡Œä¸²å£é‡å®šå‘ï¼Œç”¨äºä¿¡æ¯æ‰“å°è¾“å‡ºï¼Œé»˜è®¤æ³¢ç‰¹ç‡115200ï¼Œå¯æ ¹æ®å®é™…é‡é…ç½®stm32CubeMxä¸\Core\Src\main.cä¸­çš„fputcå‡½æ•°  
+7. Example.docä¸ºå®ä¾‹ä½¿ç”¨å‚è€ƒæ–‡æ¡£  
+8. ftBus_Delayä¸ºæ€»çº¿å¸§é—´å»¶æ—¶æ¥å£ï¼Œæ—¶é—´è¦æ±‚å¤§äº10usï¼ˆå¯ç”¨FT_BUS_DELAY_USè°ƒæ•´ï¼‰ï¼Œå½“å‰å®ç°åŸºäºDWTå‘¨æœŸè®¡æ•°å™¨ï¼Œéœ€è¦Cortex-M3/M4/M7å†…æ ¸  
+9. examplesç›®å½•ä¸‹åŒä¸€æ—¶åˆ»åªç¼–è¯‘ä¸€ä¸ªç¤ºä¾‹æ–‡ä»¶ï¼šæ¯ä¸ªç¤ºä¾‹éƒ½å®šä¹‰äº†è‡ªå·±çš„setup/exampleså‡½æ•°ï¼ˆç”±mainå‡½æ•°è°ƒç”¨ï¼‰ï¼›é™¤examples\Ping.cå¤–é»˜è®¤éƒ½ä¸å‚ä¸Keilç¼–è¯‘ï¼Œéœ€è¦å“ªä¸ªå°±å¯ç”¨å“ªä¸ª
+
+## English
+
+1. Built with STM32CubeMX 6.1.2.
+2. Regenerate the HAL library with STM32CubeMX before the first build.
+3. Examples target STM32F103 (`stm32f1.ioc`) and STM32F407 (`stm32f4.ioc`); reconfigure them in STM32CubeMX if needed.
+4. Servo control uses USART2 on its default pins at 1 Mbps; reconfigure it in STM32CubeMX if needed.
+5. When the servo UART is re-bound, update `ftUart_Send()` / `ftUart_Read()` in `\Core\Src\main.c`.
+6. USART1 is used for `printf` redirection (115200 bps by default); reconfigure it in STM32CubeMX and update `fputc()` in `\Core\Src\main.c` if needed.
+7. See `Example.doc` for example usage.
+8. `ftBus_Delay()` in `\Core\Src\main.c` is the inter-frame bus delay (must be longer than 10 us, adjustable via `FT_BUS_DELAY_US`); the provided implementation uses the DWT cycle counter, so it requires a Cortex-M3/M4/M7 core.
+9. Only one file under `examples/` may be compiled at a time: every example defines its own `setup()` / `examples()` called from `main()`. All of them except `examples/Ping.c` are excluded from the Keil build by default â€” enable the one you need.
