@@ -1,8 +1,8 @@
 /*
-»Ø¶ÁËùÓĞ¶æ»ú·´À¡²ÎÊı:Î»ÖÃ¡¢ËÙ¶È¡¢¸ºÔØ¡¢µçÑ¹¡¢ÎÂ¶È¡¢ÒÆ¶¯×´Ì¬¡¢µçÁ÷£»
-FeedBackº¯Êı»Ø¶Á¶æ»ú²ÎÊıÓÚ»º³åÇø£¬Readxxx(-1)º¯Êı·µ»Ø»º³åÇøÖĞÏàÓ¦µÄ¶æ»ú×´Ì¬£»
-º¯ÊıReadxxx(ID)£¬ID=-1·µ»ØFeedBack»º³åÇø²ÎÊı£»ID>=0£¬Í¨¹ı¶ÁÖ¸ÁîÖ±½Ó·µ»ØÖ¸¶¨ID¶æ»ú×´Ì¬,
-ÎŞĞèµ÷ÓÃFeedBackº¯Êı¡£
+å›è¯»æ‰€æœ‰èˆµæœºåé¦ˆå‚æ•°:ä½ç½®ã€é€Ÿåº¦ã€è´Ÿè½½ã€ç”µå‹ã€æ¸©åº¦ã€ç§»åŠ¨çŠ¶æ€ã€ç”µæµï¼›
+FeedBackå‡½æ•°å›è¯»èˆµæœºå‚æ•°äºç¼“å†²åŒºï¼ŒReadxxx(-1)å‡½æ•°è¿”å›ç¼“å†²åŒºä¸­ç›¸åº”çš„èˆµæœºçŠ¶æ€ï¼›
+å‡½æ•°Readxxx(ID)ï¼ŒID=-1è¿”å›FeedBackç¼“å†²åŒºå‚æ•°ï¼›ID>=0ï¼Œé€šè¿‡è¯»æŒ‡ä»¤ç›´æ¥è¿”å›æŒ‡å®šIDèˆµæœºçŠ¶æ€,
+æ— éœ€è°ƒç”¨FeedBackå‡½æ•°ã€‚
 */
 
 #include "main.h"
@@ -11,26 +11,26 @@ FeedBackº¯Êı»Ø¶Á¶æ»ú²ÎÊıÓÚ»º³åÇø£¬Readxxx(-1)º¯Êı·µ»Ø»º³åÇøÖĞÏàÓ¦µÄ¶æ»ú×´Ì¬£»
 
 void setup(void)
 {
-  setEnd(0);//SMS_STS¶æ»úÎªĞ¡¶Ë´æ´¢½á¹¹
+	setEnd(0);//SMS_STSèˆµæœºä¸ºå°ç«¯å­˜å‚¨ç»“æ„
 }
 
 void examples(void)
 {
 	int Pos;
-  int Speed;
-  int Load;
-  int Voltage;
-  int Temper;
-  int Move;
-  int Current;
+	int Speed;
+	int Load;
+	int Voltage;
+	int Temper;
+	int Move;
+	int Current;
 	FeedBack(1);
-  if(!getLastError()){
-    Pos = ReadPos(-1);
-    Speed = ReadSpeed(-1);
-    Load = ReadLoad(-1);
-    Voltage = ReadVoltage(-1);
-    Temper = ReadTemper(-1);
-    Move = ReadMove(-1);
+	if(!getLastError()){
+		Pos = ReadPos(-1);
+		Speed = ReadSpeed(-1);
+		Load = ReadLoad(-1);
+		Voltage = ReadVoltage(-1);
+		Temper = ReadTemper(-1);
+		Move = ReadMove(-1);
 		Current = ReadCurrent(-1);
 		printf("Pos:%d\n", Pos);
 		printf("Speed:%d\n", Speed);
@@ -38,73 +38,73 @@ void examples(void)
 		printf("Voltage:%d\n", Voltage);
 		printf("Temper:%d\n", Temper);
 		printf("Move:%d\n", Move);
-    printf("Current:%d\n", Current);
-    HAL_Delay(10);
-  }else{
+		printf("Current:%d\n", Current);
+		HAL_Delay(10);
+	}else{
 		printf("FeedBack err\n");
-    HAL_Delay(2000);
-  }
-  Pos = ReadPos(1);
-  if(!getLastError()){
-    printf("Servo position:%d\n", Pos);
-    HAL_Delay(10);
-  }else{
-    printf("read position err\n");
-    HAL_Delay(500);
-  }
-  
-  Voltage = ReadVoltage(1);
-  if(!getLastError()){
+		HAL_Delay(2000);
+	}
+	Pos = ReadPos(1);
+	if(!getLastError()){
+		printf("Servo position:%d\n", Pos);
+		HAL_Delay(10);
+	}else{
+		printf("read position err\n");
+		HAL_Delay(500);
+	}
+
+	Voltage = ReadVoltage(1);
+	if(!getLastError()){
 		printf("Servo Voltage:%d\n", Voltage);
-    HAL_Delay(10);
-  }else{
-    printf("read Voltage err\n");
-    HAL_Delay(500);
-  }
-  
-  Temper = ReadTemper(1);
-  if(!getLastError()){
-    printf("Servo temperature:%d\n", Temper);
-    HAL_Delay(10);
-  }else{
-    printf("read temperature err\n");
-    HAL_Delay(500);    
-  }
+		HAL_Delay(10);
+	}else{
+		printf("read Voltage err\n");
+		HAL_Delay(500);
+	}
 
-  Speed = ReadSpeed(1);
-  if(!getLastError()){
-    printf("Servo Speed:%d\n", Speed);
-    HAL_Delay(10);
-  }else{
-    printf("read Speed err\n");
-    HAL_Delay(500);    
-  }
-  
-  Load = ReadLoad(1);
-  if(!getLastError()){
-    printf("Servo Load:%d\n", Load);
-    HAL_Delay(10);
-  }else{
-    printf("read Load err\n");
-    HAL_Delay(500);    
-  }
-  
-  Current = ReadCurrent(1);
-  if(!getLastError()){
-    printf("Servo Current:%d\n", Current);
-    HAL_Delay(10);
-  }else{
-    printf("read Current err\n");
-    HAL_Delay(500);    
-  }
+	Temper = ReadTemper(1);
+	if(!getLastError()){
+		printf("Servo temperature:%d\n", Temper);
+		HAL_Delay(10);
+	}else{
+		printf("read temperature err\n");
+		HAL_Delay(500);    
+	}
 
-  Move = ReadMove(1);
-  if(!getLastError()){
-    printf("Servo Move:%d\n", Move);
-    HAL_Delay(10);
-  }else{
-    printf("read Move err\n");
-    HAL_Delay(500);    
-  }
-  printf("\n");
+	Speed = ReadSpeed(1);
+	if(!getLastError()){
+		printf("Servo Speed:%d\n", Speed);
+		HAL_Delay(10);
+	}else{
+		printf("read Speed err\n");
+		HAL_Delay(500);    
+	}
+
+	Load = ReadLoad(1);
+	if(!getLastError()){
+		printf("Servo Load:%d\n", Load);
+		HAL_Delay(10);
+	}else{
+		printf("read Load err\n");
+		HAL_Delay(500);    
+	}
+
+	Current = ReadCurrent(1);
+	if(!getLastError()){
+		printf("Servo Current:%d\n", Current);
+		HAL_Delay(10);
+	}else{
+		printf("read Current err\n");
+		HAL_Delay(500);    
+	}
+
+	Move = ReadMove(1);
+	if(!getLastError()){
+		printf("Servo Move:%d\n", Move);
+		HAL_Delay(10);
+	}else{
+		printf("read Move err\n");
+		HAL_Delay(500);    
+	}
+	printf("\n");
 }

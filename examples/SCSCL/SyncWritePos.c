@@ -7,24 +7,24 @@ uint16_t Speed[2];
 
 void setup(void)
 {
-	setEnd(1);//SCSCL¶æ»úÎª´ó¶Ë´æ´¢½á¹¹
-  ID[0] = 1;//¶æ»úID1
-  ID[1] = 2;//¶æ»úID2
-  Speed[0] = 1500;//×î¸ßËÙ¶ÈV=1500*0.059=88.5rpm
-  Speed[1] = 1500;//×î¸ßËÙ¶ÈV=1500*0.059=88.5rpm
+	setEnd(1);//SCSCLèˆµæœºä¸ºå¤§ç«¯å­˜å‚¨ç»“æ„
+	ID[0] = 1;//èˆµæœºID1
+	ID[1] = 2;//èˆµæœºID2
+	Speed[0] = 1500;//æœ€é«˜é€Ÿåº¦V=1500*0.059=88.5rpm
+	Speed[1] = 1500;//æœ€é«˜é€Ÿåº¦V=1500*0.059=88.5rpm
 }
 
 void examples(void)
 {
-	//¶æ»ú(ID1/ID2)ÒÔ×î¸ßËÙ¶ÈV=1500*0.059=88.5rpm£¬ÔËĞĞÖÁP1=1000Î»ÖÃ
-  Position[0] = 1000;
-  Position[1] = 1000;
-  SyncWritePos(ID, 2, Position, 0, Speed);
+	//èˆµæœº(ID1/ID2)ä»¥æœ€é«˜é€Ÿåº¦V=1500*0.059=88.5rpmï¼Œè¿è¡Œè‡³P1=1000ä½ç½®
+	Position[0] = 1000;
+	Position[1] = 1000;
+	SyncWritePos(ID, 2, Position, 0, Speed);
 	HAL_Delay((1000-20)*1000/(1500) + 100);//[(P1-P0)/V]*1000 + 100
-	
-  //¶æ»ú(ID1/ID2)ÒÔ×î¸ßËÙ¶ÈV=1500*0.059=88.5rpm£¬ÔËĞĞÖÁP0=20Î»ÖÃ
-  Position[0] = 20;
-  Position[1] = 20;
-  SyncWritePos(ID, 2, Position, 0, Speed);
+
+	//èˆµæœº(ID1/ID2)ä»¥æœ€é«˜é€Ÿåº¦V=1500*0.059=88.5rpmï¼Œè¿è¡Œè‡³P0=20ä½ç½®
+	Position[0] = 20;
+	Position[1] = 20;
+	SyncWritePos(ID, 2, Position, 0, Speed);
 	HAL_Delay((1000-20)*1000/(1500) + 100);//[(P1-P0)/V]*1000 + 100
 }

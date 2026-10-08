@@ -7,8 +7,8 @@ void setup(void)
 
 void examples(void)
 {
-	unLockEprom(1);//打开EPROM保存功能
-  writeByte(1, SMS_STS_ID, 2);//ID
-	LockEprom(2);//关闭EPROM保存功能
+	unLockEpromEx(1);//打开EPROM保存功能
+	writeByte(1, SMS_STS_ID, 2);//ID
+	LockEpromEx(2);//关闭EPROM保存功能
 	while(1){}
 }

@@ -1,5 +1,5 @@
 /*
-Í¬²½¶ÁÖ§³ÖSMS/STSÁ½¸öĞÍºÅ¶æ»ú
+åŒæ­¥è¯»æ”¯æŒSMS/STSä¸¤ä¸ªå‹å·èˆµæœº
 */
 
 #include "main.h"
@@ -13,7 +13,7 @@ uint8_t rxPacket[4];
 
 void setup(void)
 {
-  setEnd(0);//SMS_STS¶æ»úÎªĞ¡¶Ë´æ´¢½á¹¹
+	setEnd(0);//SMS_STSèˆµæœºä¸ºå°ç«¯å­˜å‚¨ç»“æ„
 	syncReadBegin(sizeof(ID), sizeof(rxPacket));
 }
 
@@ -21,15 +21,15 @@ void examples(void)
 {
 	uint8_t rxPacket[4];
 
-  syncReadPacketTx(ID, sizeof(ID), SMS_STS_PRESENT_POSITION_L, sizeof(rxPacket));//Í¬²½¶ÁÖ¸Áî°ü·¢ËÍ
+	syncReadPacketTx(ID, sizeof(ID), SMS_STS_PRESENT_POSITION_L, sizeof(rxPacket));//åŒæ­¥è¯»æŒ‡ä»¤åŒ…å‘é€
 	for(uint8_t i=0; i<sizeof(ID); i++){
-		//½ÓÊÕID[i]Í¬²½¶Á·µ»Ø°ü
+		//æ¥æ”¶ID[i]åŒæ­¥è¯»è¿”å›åŒ…
 		if(!syncReadPacketRx(ID[i], rxPacket)){
 			printf("ID:%d sync read error!\n", ID[i]);
-			continue;//½ÓÊÕ½âÂëÊ§°Ü
+			continue;//æ¥æ”¶è§£ç å¤±è´¥
 		}
-		Position = syncReadRxPacketToWrod(15);//½âÂëÁ½¸ö×Ö½Ú bit15Îª·½ÏòÎ»,²ÎÊı=0±íÊ¾ÎŞ·½ÏòÎ»
-		Speed = syncReadRxPacketToWrod(15);//½âÂëÁ½¸ö×Ö½Ú bit15Îª·½ÏòÎ»,²ÎÊı=0±íÊ¾ÎŞ·½ÏòÎ»
+		Position = syncReadRxPacketToWrod(15);//è§£ç ä¸¤ä¸ªå­—èŠ‚ bit15ä¸ºæ–¹å‘ä½,å‚æ•°=0è¡¨ç¤ºæ— æ–¹å‘ä½
+		Speed = syncReadRxPacketToWrod(15);//è§£ç ä¸¤ä¸ªå­—èŠ‚ bit15ä¸ºæ–¹å‘ä½,å‚æ•°=0è¡¨ç¤ºæ— æ–¹å‘ä½
 		printf("ID:%d Position:%d Speed:%d\n", ID[i], Position, Speed);
 		HAL_Delay(10);
 	}
