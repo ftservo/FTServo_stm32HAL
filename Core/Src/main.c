@@ -33,6 +33,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+//FT舵机总线切换延时(单位:us)，要求大�?10us，按实际硬件收发切换时间调整
+#define FT_BUS_DELAY_US 20
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -54,26 +56,32 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
+void ftBus_DelayInit(void);
 void examples(void);
 void setup(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//printf���������ض���
+//printf函数串口重定�?
 int fputc(int c, FILE *f)
 {
 	HAL_UART_Transmit(&huart1, (uint8_t *)&c, 1, 100);
 	return c;
 }
 
-//FT�������ָ��ͺ���
+//FT舵机串口指令发�?�函�?
 void ftUart_Send(uint8_t *nDat , int nLen)
 {
+	//发�?�前丢弃接收残留，避免上�?帧超时残字节干扰后面的帧头检�?
+	__HAL_UART_CLEAR_OREFLAG(&huart2);
+	while(__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE) != RESET){
+		(void)huart2.Instance->DR;
+	}
 	HAL_UART_Transmit(&huart2, nDat, nLen, 100);
 }
 
-//FT�������ָ��Ӧ����պ���
+//FT舵机串口指令应答接收函数
 int ftUart_Read(uint8_t *nDat, int nLen)
 {
 	if(HAL_OK!=HAL_UART_Receive(&huart2, nDat, nLen, 100)){
@@ -83,10 +91,25 @@ int ftUart_Read(uint8_t *nDat, int nLen)
 	}
 }
 
-//FT��������л���ʱ��ʱ�����10us
+//FT舵机总线切换延时(DWT周期计数�?)初始化，仅需调用�?�?
+void ftBus_DelayInit(void)
+{
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+}
+
+//FT舵机总线切换延时，时间大�?10us(FT_BUS_DELAY_US)
+//基于DWT周期计数器，精度1个内核周期，支持任意长度延时
+//注意：DWT仅Cortex-M3/M4/M7保证存在；M0/M0+/M1没有DWT，M23/M33等为可�?�实�?
 void ftBus_Delay(void)
 {
-	HAL_Delay(1);
+	if((DWT->CTRL & DWT_CTRL_CYCCNTENA_Msk) == 0){
+		ftBus_DelayInit();//兜底：未初始化时自动使能，避免死循环
+	}
+	uint32_t start = DWT->CYCCNT;
+	uint32_t ticks = (SystemCoreClock/1000000U)*FT_BUS_DELAY_US;//延时对应的内核周期数
+	while((DWT->CYCCNT - start) < ticks){
+	}
 }
 
 /* USER CODE END 0 */
@@ -122,9 +145,11 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-	//�ȴ�����ϵ�����
+	//等待舵机上电启动
 	HAL_Delay(1000);
-	//������ʼ������
+	//总线切换延时(DWT周期计数�?)初始�?
+	ftBus_DelayInit();
+	//舵机库初始化配置
 	setup();
   /* USER CODE END 2 */
 
